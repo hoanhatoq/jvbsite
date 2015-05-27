@@ -38,6 +38,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->Html->script('jquery.lazy.js');
         echo $this->Html->script('jquery.bxslider.js');
         echo $this->Html->script('imenu.js');
+        echo $this->Html->script('script.js');
+        echo $this->Html->script('jquery.cycle.all.min.js');
     ?>
 </head>
 <body>
@@ -93,7 +95,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 
                 <li class="<?php if($controller =='casestudy') echo 'active'; ?>" ><a href="<?php echo $this->Html->url(array('controller' => 'casestudy', 'action' => 'index')) ?>"><?php echo __('Case Study');?></a></li>
                             
-                <li class="<?php if($controller =='contact_us') echo 'active'; ?>" ><a href="<?php echo $this->Html->url(array('controller' => 'contact_us', 'action' => 'index')) ?>"><?php echo __('Liên hệ');?></a></li>
+                <li class="<?php if($controller =='contact') echo 'active'; ?>" ><a href="<?php echo $this->Html->url(array('controller' => 'contact', 'action' => 'index')) ?>"><?php echo __('Liên hệ');?></a></li>
                     
                 <div class="clear"></div>
             </ul>

@@ -1,0 +1,74 @@
+<div class="content">
+    
+    <div class="center_f">
+        <div class="p_contact">
+        	<div class="company_address">
+        		<strong><?php echo __('C&ocirc;ng ty cổ phần JVB Việt Nam')?></strong>
+        	</div>
+			<div class="company_address"><?php echo __('Số 32-34, Đường Đặng Văn Ngữ, Phường Phương Li&ecirc;n, Quận Đống Đa, Th&agrave;nh phố H&agrave; Nội, Việt Nam');?></div>
+		</div>
+       <form id="contact" class="contact" method="POST" action="">
+        	<label>Họ tên<font>(<span>*</span>)</font> </label>
+        		<?php echo $this->Form->input('name',array('label' =>false,'name' => 'name','required type' => 'name','class'=>'an')); ?>	
+        	<div class="clear"></div>     
+        	<label>Điện thoại<font>(<span>*</span>)</font></label>
+        		<?php echo $this->Form->input('phone',array('label' =>false,'required type' => 'name')); ?>
+        	<div class="clear"></div>
+        	<label>Email<font>(<span>*</span>)</font></label>
+        		<?php echo $this->Form->input('email',array('label' =>false,'required type' => 'name')); ?>                           
+        	<div class="clear"></div>
+        	<label>Tiêu đề<font>(<span>*</span>)</font></label>
+        		<?php echo $this->Form->input('subject',array('label' => false,'required type' => 'name','class'=>'an')); ?> 
+        	<div class="clear"></div>
+        	<label>Nội dung:</label>
+        	<?php echo $this->Form->input('content',array('label' =>false,'class' =>'an','type' => 'textarea')); ?>
+        	<div class="clear"></div>
+            <label>Capcha Ct :</label>
+            	<?php echo $this->Form->input('ip',array('label' =>false,'class' =>'an','type' => 'text','style' => 'width:100px;')); ?>
+            <img id="siimage" src="http://jvb-corp.com/vscaptcha/" />
+            <a href="#" id="reload_img" class="mamoi">refresh</a>
+        	<div class="clear"></div> 
+			<div class="required_text"><span>(*)</span>Bắt buộc nhập</div> 
+			<?php echo $this->Form->button('Gửi ngay',array('label' =>false,'type' => 'submit','class'=>'input_submit','name'=> 'btnSubmit'));?>
+			<?php echo $this->Form->input('Làm lại',array('label' =>false,'type' => 'reset','class'=>'input_reset','name'=> 'btnSubmit'));?>
+			<?php echo $this->Form->end(); ?>
+            <div class="clear"></div>
+        </form>
+                 <script>
+                    $("#reload_img").click(function(){
+                       	$("#siimage").attr("src",$("#siimage").attr("src")+"?a");
+                       	return false;
+					});
+				</script>
+        <div class="map" id="map_canvas"></div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+    <script>
+				     function init() {
+				                                               
+				    var myHtml = "<h4>Công ty cổ phần JVB Việt Nam</h4><p></p>";
+				                                                
+				      var map = new google.maps.Map(
+				      document.getElementById("map_canvas"),
+				      {scaleControl: true}
+				      );
+				      map.setCenter(new google.maps.LatLng(21.013428,105.833353));
+				      map.setZoom(17);
+				      map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+				      var marker = new google.maps.Marker({
+				      map: map,
+				      position:map.getCenter()
+						});
+						var infowindow = new google.maps.InfoWindow({
+						'pixelOffset': new google.maps.Size(0,15)
+							});
+				      infowindow.setContent(myHtml);
+				      infowindow.open(map, marker);
+				    						}
+				    		$(document).ready(function(){
+						init();
+				});
+    </script>

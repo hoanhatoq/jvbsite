@@ -4,68 +4,36 @@
 	<body>
 	<script type="text/javascript">
         $(document).ready(function(){
-	        $('.bxslider').bxSlider({
-	            speed: 700,
-	            mode: 'fade',
-	            infiniteLoop: true,
-	            hideControlOnEnd: true,
-	            controls: true,
-	            pager: false,
-	            auto: true
-	        });
+        	$(document).ready(function() {
+                $("#slideshow").css("overflow", "hidden");
+                $("ul#slides").cycle({
+                    fx: 'fade',
+                    pause: 1,
+                    prev: '#prev',
+                    next: '#next',
+                    speed: 1000
+                });
+                
+                $("#slideshow").hover(function() {
+    	           $("ul#nav").fadeIn();
+    	        },
+    		    function() {
+    	           $("ul#nav").fadeOut();
+    	        });
+            });
         });
     </script>
 		<div class="banner">
-			<div class="wrapper_banner">
-			    <ul class="bxslider">
-			        <li>
-						<!--<div class="service_slide"> -->
-				            <div class="title"><?php //echo __('Phát triển ứng dụng Mobile');?></div>
-				            <?php //echo __('Công ty chúng tôi cung cấp dịch vụ phát triển ứng dụng Mobile trên nền iOS và Android.<br/>Đội ngũ nhân viên của chúng tôi tư vấn và phát triển dựa trên nhu cầu thực tế của khách hàng.');?>
-				           	<div class="readmore"><a href="#"><?php //echo __('Xem thêm');?></a></div>
-						<!--</div> -->
-			            <div class="im_slide">
-			                <?php 
-			                    echo $this->Html->image(__('welcome.jpg'), array('class'=> 'lazy', 'alt' => 'welcome')); 
-			                ?>
-			            </div>
-			        </li>
-			        <li>
-						<!--<div class="service_slide"> -->
-				            <div class="title"><?php //echo __('Phát triển ứng dụng Web');?></div>
-				            <?php //echo __('Công ty JVB Vietnam cung cấp dịch vụ thiết kế và phát triển ứng dụng Web');?>
-				           	<div class="readmore"><a href="#"><?php //echo __('Xem thêm');?></a></div>
-						<!--</div> -->
-			            <div class="im_slide">
-			               	<?php 
-			                    echo $this->Html->image(__('web_application.png'), array('class'=> 'lazy', 'alt'=> 'banner_web_application')); 
-			                ?>
-			            </div>
-			        </li>
-			        <li>
-						<!--<div class="service_slide"> -->
-				            <div class="title"><?php //echo __('Nội dung số');?></div>
-				            <?php //echo __('Công ty JVB Vietnam số hóa thông tin về văn hóa, môi trường kinh doanh tại Việt Nam để quảng bá cho khách hàng Nhật');?>
-				           	<div class="readmore"><a href=""><?php //echo __('Xem thêm');?></a></div>
-						<!--</div> -->
-			            <div class="im_slide">
-			                <?php 
-			                    echo $this->Html->image(__('mobile_apps.png'), array('class'=> 'lazy', 'alt'=> 'banner_mobile')); 
-			                ?>
-			            </div>
-			        </li>
-			        <li>
-						<!--<div class="service_slide"> -->
-				            <div class="title"><?php //echo __('Nội dung số');?></div>
-				            <?php //echo __('Công ty JVB Vietnam số hóa thông tin về văn hóa, môi trường kinh doanh tại Việt Nam để quảng bá cho khách hàng Nhật');?>
-				           	<div class="readmore"><a href=""><?php //echo __('Xem thêm');?></a></div>
-						<!--</div> -->
-			            <div class="im_slide">
-			                <?php 
-			                    echo $this->Html->image(__('consulting.png'), array('class'=> 'lazy', 'alt'=> 'banner_consulting')); 
-			                ?>
-			            </div>
-			        </li>
+			<div id="slideshow">
+				<ul id="nav">
+                    <li id="prev"><a href="#">Previous</a></li>
+                    <li id="next"><a href="#">Next</a></li>
+                </ul>
+			    <ul id="slides">
+			        <li><?php echo $this->Html->image(__('welcome.jpg'), array('class'=> 'lazy', 'alt' => 'welcome')); ?></li>
+			        <li><?php echo $this->Html->image(__('web_application.png'), array('class'=> 'lazy', 'alt'=> 'banner_web_application'));?></li>
+			        <li><?php echo $this->Html->image(__('mobile_apps.png'), array('class'=> 'lazy', 'alt'=> 'banner_mobile'));?></li>
+			        <li><?php echo $this->Html->image(__('consulting.png'), array('class'=> 'lazy', 'alt'=> 'banner_consulting'));?></li>
 			    </ul>
 		    </div>
 		</div>	
@@ -179,34 +147,20 @@
 					<?php echo $this->Html->image('image_case1.png');?>
 				</div>
 				<div class="case">
-					<div class="news_case">
-						<?php
-							echo __('Full Project / Labo');
-					?>
-					</div>
-					<div class="info_case">
-						<?php 
-							echo __('Giới thiệu tóm tắt về case study full project,');
-							echo ('<br>');
-							echo __('labo...');
-						?>
-					</div>
-				<div class="icon_see_more"><?php echo $this->Html->image('icon_seemore.png') ;?></div>
-				<div class="see_more"><a href="" style="color: #585858;"><?php echo __('Xem Thêm') ;?></a></div>
+					<div class="news_case"><?php echo __('Full Project / Labo');?></div>
+					<div class="info_case"><?php echo __('Giới thiệu tóm tắt về case study full project, labo...');?></div>
+					<div class="icon_see_more"><?php echo $this->Html->image('icon_seemore.png') ;?></div>
+					<div class="see_more"><a href="" style="color: #585858;"><?php echo __('Xem Thêm') ;?></a></div>
 				</div>
 				<div class="row_casestudy"><?php echo $this->Html->image('row_in_case.png');?></div>
 				<div class="image_case2" ><?php echo $this->Html->image('image_case2.png');?></div>
 				<div class="case2">
 					<div class="news_case"><?php echo __('Web / Smartphone Application');?></div>
 					<div class= "info_case">
-						<?php 
-							echo __('Giới thiệu tóm tắt về case sutdy web, smart - ');
-						echo __('<br>');
-						echo __('phone application...');
-					?>
+						<?php echo __('Giới thiệu tóm tắt về case sutdy web, smart - phone application...');?>
 					</div>
 					<div class="icon_see_more"><?php echo $this->Html->image('icon_seemore.png') ;?></div>
-				<div class="see_more"><a href="" style="color: #585858;"><?php echo __('Xem Thêm') ;?></a></div>
+					<div class="see_more"><a href="" style="color: #585858;"><?php echo __('Xem Thêm') ;?></a></div>
 				</div>
 				<?php echo $this->Html->image('row_end_processes.png',array('style' => 'margin-top: 20px;'));?>
 			</div>

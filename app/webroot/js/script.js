@@ -1,163 +1,113 @@
+(function (name, definition) {
+  if (typeof module != 'undefined' && module.exports) module.exports = definition()
+  else if (typeof define == 'function' && define.amd) define(definition)
+  else this[name] = definition()
+})('$script', function () {
+  var doc = document
+    , head = doc.getElementsByTagName('head')[0]
+    , s = 'string'
+    , f = false
+    , push = 'push'
+    , readyState = 'readyState'
+    , onreadystatechange = 'onreadystatechange'
+    , list = {}
+    , ids = {}
+    , delay = {}
+    , scripts = {}
+    , scriptpath
+    , urlArgs
 
+  function every(ar, fn) {
+    for (var i = 0, j = ar.length; i < j; ++i) if (!fn(ar[i])) return f
+    return 1
+  }
+  function each(ar, fn) {
+    every(ar, function (el) {
+      return !fn(el)
+    })
+  }
 
-
-
-var x=0;
-$(document).ready(function(){
-  $(window).resize(function(){
-    	
-  });
-});
-
-
-
-	$(document).load($(window).bind("resize", checkPosition));
-
-		function checkPosition()
-		{
-		    if($(window).width() < 767)
-		    {
-		        $("#body-container .main-content").remove().insertBefore($("#body-container .left-sidebar"));
-		    } else {
-		        $("#body-container .main-content").remove().insertAfter($("#body-container .left-sidebar"));
-		    }
-		}
-
-	
-	function Talert($str){
-        $('html').append('<div class"t_alert">dfgdfgdfg</div>');
-        $('.t_alert').css({'padding':'20px'});
+  function $script(paths, idOrDone, optDone) {
+    paths = paths[push] ? paths : [paths]
+    var idOrDoneIsDone = idOrDone && idOrDone.call
+      , done = idOrDoneIsDone ? idOrDone : optDone
+      , id = idOrDoneIsDone ? paths.join('') : idOrDone
+      , queue = paths.length
+    function loopFn(item) {
+      return item.call ? item() : list[item]
     }
+    function callback() {
+      if (!--queue) {
+        list[id] = 1
+        done && done()
+        for (var dset in delay) {
+          every(dset.split('|'), loopFn) && !each(delay[dset], loopFn) && (delay[dset] = [])
+        }
+      }
+    }
+    setTimeout(function () {
+      each(paths, function loading(path, force) {
+        if (path === null) return callback()
+        path = !force && path.indexOf('.js') === -1 && !/^https?:\/\//.test(path) && scriptpath ? scriptpath + path + '.js' : path
+        if (scripts[path]) {
+          if (id) ids[id] = 1
+          return (scripts[path] == 2) ? callback() : setTimeout(function () { loading(path, true) }, 0)
+        }
 
-	
-		
+        scripts[path] = 1
+        if (id) ids[id] = 1
+        create(path, callback)
+      })
+    }, 0)
+    return $script
+  }
 
-	$(document).ready(function() {
-          //Talert('21313');
-         $('.single-item-session').slick({
-			infinite: false,
-			speed: 300,
-			slidesToShow: 4,
-			slidesToScroll: 1
-		});
+  function create(path, fn) {
+    var el = doc.createElement('script'), loaded
+    el.onload = el.onerror = el[onreadystatechange] = function () {
+      if ((el[readyState] && !(/^c|loade/.test(el[readyState]))) || loaded) return;
+      el.onload = el[onreadystatechange] = null
+      loaded = 1
+      scripts[path] = 2
+      fn()
+    }
+    el.async = 1
+    el.src = urlArgs ? path + (path.indexOf('?') === -1 ? '?' : '&') + urlArgs : path;
+    head.insertBefore(el, head.lastChild)
+  }
 
-		 $('.single-item').slick({
-			infinite: false,
-			speed: 300,
-			slidesToShow: 3,
-			slidesToScroll: 1
-		});
-		
-	});
+  $script.get = create
 
-	
-	function startTime() {
-	    var today=new Date();
-	    var h=today.getHours();
-	    var m=today.getMinutes();
-	    var s=today.getSeconds();
-	    var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0!
-		var yyyy = today.getFullYear();
+  $script.order = function (scripts, id, done) {
+    (function callback(s) {
+      s = scripts.shift()
+      !scripts.length ? $script(s, id, done) : $script(s, callback)
+    }())
+  }
 
-		if(dd<10) {
-		    dd='0'+dd
-		} 
+  $script.path = function (p) {
+    scriptpath = p
+  }
+  $script.urlArgs = function (str) {
+    urlArgs = str;
+  }
+  $script.ready = function (deps, ready, req) {
+    deps = deps[push] ? deps : [deps]
+    var missing = [];
+    !each(deps, function (dep) {
+      list[dep] || missing[push](dep);
+    }) && every(deps, function (dep) {return list[dep]}) ?
+      ready() : !function (key) {
+      delay[key] = delay[key] || []
+      delay[key][push](ready)
+      req && req(missing)
+    }(deps.join('|'))
+    return $script
+  }
 
-		if(mm<10) {
-		    mm='0'+mm
-		} 
+  $script.done = function (idOrDone) {
+    $script([null], idOrDone)
+  }
 
-		ddd = mm+'/'+dd+'/'+yyyy;
-	    m = checkTime(m);
-	    s = checkTime(s);
-	    document.getElementById('clock').innerHTML = h+":"+m+" "+ddd;
-	    var t = setTimeout(function(){startTime()},500);
-	}
-
-	function checkTime(i) {
-	    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
-	    return i;
-	}
-
-	function addCart(id,number){
-		$.ajax({
-			type : 'POST',
-			url : baseUrl + 'orders/addcart',
-			data : 'ajax=1&id='+id+'',
-			success : function(data) {
-				if (data == 1) {
-					window.location.href = baseUrl+"orders";
-					return false;
-				}
-				if (data == 0) {
-					alert('Có lỗi đặt hàng');
-				}	
-			}
-		});
-		return false;
-	}
-
-	function show_support(){
-		$.fancybox({
-	       type: 'ajax',
-	       href:baseUrl+"supports/show_support/"   
-	    });	
-	}
-
-
-	$(document).ready(function(){
-
-		startTime();
-
-		$('.menu_f li,.cate_mn li').hover(function(){
-			 $(this).find('ul:first').css({visibility: 'visible',display: 'none'}).show();
-			 $(this).parent().prev().addClass('active1');
-			 /* -- nếu bỏ display none thì khi hover lại lần thứ 2 thì kg có faceIn -- */
-			 },function(){
-				 $(this).find('ul:first').css({display: 'none'}).hide();
-				 $(this).parent().prev().removeClass('active1');
-			 });
-			 $('.menu_f li ul li a').each(function(){	 
-				 $(this).parent().parent().prev().addClass('active');	
-		});
-					 
-
-
-		$('.main_product .item').hover(function(){
-			var h=$(this).height();
-			$(this).find('.intro').stop().animate({'top':0},400);
-		},function(){
-			$(this).find('.intro').stop().animate({'top':'100%'},400);
-		});
-
-		$('#slider_home').nivoSlider();
-
-		$('.click_toggle').click(function(){
-			$(this).parent().parent().find('.sub').toggle();
-		})
-
-		$('body').click(function() {
-			$('.sub').hide();
-		});
-
-		$('.sub,.click_toggle').click(function(event){
-				event.stopPropagation();
-		});	
-
-		$('.breakcrum div').last().addClass('last-child');
-
-
-		$('.click_toggle').each(function(){
-			if(!$(this).parent().next().find('li').get(0)){
-				$(this).remove();
-			}
-
-		});
-
-
-	});	
-	
-	$(function() {
-	    $("img.lazy").lazyload();
-	});
+  return $script
+});

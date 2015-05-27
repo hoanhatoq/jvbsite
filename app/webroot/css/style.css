@@ -130,6 +130,47 @@ table{
 	opacity:0.6;
 	background-size:80%;
 }
+div#slideshow {
+    width: 1000px;
+    height: 314px; 
+	overflow: scroll; /* Allows the slides to be viewed using scrollbar if Javascript isn't available */ 
+	position: relative; z-index: 5;
+}
+
+div#slideshow ul#nav {
+	display: none;
+	list-style: none;
+	position: relative; 
+    top: 140px; 
+    z-index: 15;
+}
+
+div#slideshow ul#nav li#prev {
+    float: left; 
+}
+
+div#slideshow ul#nav li#next {
+    float: right; 
+}
+
+div#slideshow ul#nav li a {
+    display: block; 
+    width: 40px; 
+    height: 40px; 
+    text-indent: -9999px;
+}
+
+div#slideshow ul#nav li#prev a {
+    background: url(../img/prev_1.png);
+}
+
+div#slideshow ul#nav li#next a {
+    background: url(../img/next_1.png);
+}
+
+div#slideshow ul#slides {
+    list-style: none;
+}
 .flag_jp{
 	border:1px solid #CCC;
 	box-sizing:border-box;
@@ -552,6 +593,7 @@ table{
 	cursor: pointer;
 	border: none;
 	border-radius:5px;
+	float: left;
 }
 
 .contact input.input_reset {
@@ -680,15 +722,21 @@ a.mamoi {
 .news_case{
   	font-size: 15px;
   	font-weight: bold;
-  	margin-left: 10px;
-  	
-  	
+  	margin-left: 10px;  	
 }
 .info_case{
 	
   	margin-left: 10px;
   	margin-top: 5px;
   	font-size: 13px;
+  	width: 288px;
+}
+.info_case1{
+	margin-left: 10px;
+  	margin-top: 5px;
+  	font-size: 13px;
+  	width: 288px;
+  	border: 1px solid;
 }
 .see_more{
 	float: right;
@@ -698,6 +746,7 @@ a.mamoi {
 .icon_see_more{
 	float: right;
   	margin-top: 49px;
+  	margin-right: 35px;
 }
 .row_casestudy{
 	margin-left: 40px;
